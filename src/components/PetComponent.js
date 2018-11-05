@@ -8,19 +8,19 @@ export default class PetComponent extends Component {
   }
 
   render() {
-    console.log('PROPS', this.props.navigate)
+    const { pets, navigate } = this.props
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.text}>Paws Near Me</Text>
         <ScrollView contentContainerStyle={styles.pets}>
-          {this.props.pets.map((pet, index) => {
+          {pets.map((pet, index) => {
             return (
               <View style={styles.petCard} key={index}>
                 <TouchableOpacity
                   style={{ alignItems: 'center' }}
-                  onPress={() => this.props.navigate('SinglePetScreen', { pet })}>
-                  <Image style={styles.petImage} source={{ uri: pet.user.image }} />
-                  <Text style={styles.petName}>{pet.user.petName}</Text>
+                  onPress={() => navigate('SinglePetScreen', { pet })}>
+                  <Image style={styles.petImage} source={{ uri: pet.imageUrl }} />
+                  <Text style={styles.petName}>{pet.petName}</Text>
                 </TouchableOpacity>
               </View>
             )

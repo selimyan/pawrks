@@ -42,12 +42,15 @@ export default class Pets extends Component {
   }
 
   render() {
-    console.log('PETSSS', this.state.pets)
+    // console.log('PETSSS', this.state.pets)
     return (
       <ScrollView contentContainerStyle={styles.container}>
         {
           !this.state.loading ?
-            <PetComponent pets={this.state.pets} navigate={this.props.navigation.navigate} />
+            <PetComponent
+              pets={this.state.pets}
+              navigate={this.props.navigation.navigate}
+            />
             : <ActivityIndicator />
         }
       </ScrollView>
