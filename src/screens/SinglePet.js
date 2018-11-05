@@ -6,11 +6,11 @@ const SinglePet = (props) => {
   const pet = props.navigation.state.params.pet
   return (
     <View style={style.main}>
-      <Text style={style.name}>{pet.user.petName}, {pet.user.age}y</Text>
-      <Image style={style.petImage} source={{ uri: pet.user.image }} />
+      <Text style={style.name}>{pet.petName}, {pet.age}y</Text>
+      <Image style={style.petImage} source={{ uri: pet.imageUrl }} />
       <View style={{ margin: 25 }}>
-        <Text style={style.info}>I am a {pet.user.breed}</Text>
-        <Text style={style.info}>My hooman is {pet.user.ownerName}</Text>
+        <Text style={style.info}>I am a {pet.breed}</Text>
+        <Text style={style.info}>My hooman is {pet.ownerName}</Text>
       </View>
       <Button buttonStyle={style.button} title='Message' />
     </View>
