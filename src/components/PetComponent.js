@@ -10,9 +10,12 @@ export default class PetComponent extends Component {
   render() {
     const { pets, navigate } = this.props
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.text}>Paws Near Me</Text>
-        <ScrollView contentContainerStyle={styles.pets}>
+        <ScrollView
+          contentContainerStyle={styles.pets}
+          showsVerticalScrollIndicator={false}
+        >
           {pets.map((pet, index) => {
             return (
               <View style={styles.petCard} key={index}>
@@ -26,7 +29,7 @@ export default class PetComponent extends Component {
             )
           })}
         </ScrollView>
-      </ScrollView>
+      </View>
     )
   }
 }
@@ -41,35 +44,35 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   text: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center'
   },
   pets: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
-    marginVertical: 20
+    marginVertical: 20,
+    paddingBottom: 20,
   },
   petCard: {
-    width: 150,
-    height: 150,
-    marginTop: 5,
+    width: 250,
+    height: 250,
+    marginTop: 20,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   petImage: {
-    width: 110,
-    height: 110,
-    borderRadius: 50,
+    width: 200,
+    height: 200,
+    borderRadius: 100,
     borderColor: '#FF9F1C',
     borderWidth: 2,
   },
   petName: {
-    fontSize: 18,
+    fontSize: 26,
     color: '#2EC4B6',
     fontWeight: 'bold'
   }
