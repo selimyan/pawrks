@@ -3,3 +3,4 @@ import config from './credentials'
 
 export const app = Firebase.initializeApp(config)
 export const db = app.database()
+export const storage = app.storage()

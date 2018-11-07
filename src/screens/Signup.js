@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, TextInput, ScrollView, Alert } from 'react-native'
 import { ButtonGroup, Button, CheckBox } from 'react-native-elements'
 import { ImagePicker, Permissions } from 'expo'
-import { db, app } from '../config'
+import { db, storage } from '../config'
 import "@expo/vector-icons"
 
 export const addUser = (user) => {
@@ -15,12 +15,13 @@ export default class Signup extends Component {
     this.state = {
       ownerName: '',
       petName: '',
-      email: '',
       gender: 1,
       size: 1,
       age: '',
       breed: '',
       zip: '',
+      imageUrl: '',
+      isDiscoverable: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.chooseImage = this.chooseImage.bind(this)
@@ -33,17 +34,21 @@ export default class Signup extends Component {
     if (!result.cancelled) {
       try {
         await this.uploadImage(result.uri)
+        console.log('STATE', this.state.imageUrl)
         Alert.alert('Uploaded')
       } catch (err) { Alert.alert(err) }
     }
   }
 
   async uploadImage(uri) {
-    const response = await fetch(uri)
-    const blob = await response.blob()
-    let ref = app.storage().ref().child(`images/${blob._data.blobId}`)
-    console.log('blob data', blob._data)
-    return ref.put(blob)
+    try {
+      const response = await fetch(uri)
+      const blob = await response.blob()
+      const imageRef = storage.ref().child(`images/${blob._data.blobId}`)
+      await imageRef.put(blob)
+      const imageUrl = await imageRef.getDownloadURL()
+      this.setState({ imageUrl })
+    } catch (err) { Alert.alert(err) }
   }
 
   handleSubmit() {
@@ -53,7 +58,17 @@ export default class Signup extends Component {
   }
 
   render() {
-    const { ownerName, email, petName, gender, size, age, breed, zip, isDiscoverable } = this.state
+    const {
+      ownerName,
+      petName,
+      gender,
+      size,
+      age,
+      breed,
+      zip,
+      imageUrl,
+      isDiscoverable
+    } = this.state
 
     return (
       <ScrollView contentContainerStyle={styles.main} keyboardShouldPersistTaps='never' keyboardDismissMode='on-drag'>
