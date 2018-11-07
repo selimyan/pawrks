@@ -2,12 +2,8 @@ import React, { Component } from 'react'
 import { StyleSheet, TextInput, ScrollView, Alert, KeyboardAvoidingView } from 'react-native'
 import { ButtonGroup, Button, CheckBox } from 'react-native-elements'
 import { ImagePicker, Permissions } from 'expo'
-import { db, storage } from '../config'
+import { db, storage, app } from '../config'
 import '@expo/vector-icons'
-
-export const addUser = (user) => {
-  db.ref('/pets').push({ user })
-}
 
 export default class Signup extends Component {
   constructor(props) {
@@ -34,7 +30,6 @@ export default class Signup extends Component {
     if (!result.cancelled) {
       try {
         await this.uploadImage(result.uri)
-        console.log('STATE', this.state.imageUrl)
         Alert.alert('Uploaded')
       } catch (err) { Alert.alert(err) }
     }
@@ -51,10 +46,49 @@ export default class Signup extends Component {
     } catch (err) { Alert.alert(err) }
   }
 
-  handleSubmit() {
-    const userEmail = app.auth().currentUser.email
-    addUser({ ...this.state, email: userEmail })
-    this.props.navigation.navigate('HomeScreen')
+  async handleSubmit() {
+    const {
+      ownerName,
+      petName,
+      gender,
+      size,
+      age,
+      breed,
+      zip,
+      imageUrl,
+      isDiscoverable
+    } = this.state
+    try {
+      console.log('IN SUBMIT')
+      const email = await app.auth().currentUser.email
+      console.log('IN EMAIL', email)
+      const petId = await db.ref('/pets').push().key
+      console.log('PETID', petId)
+      const ownerId = await db.ref('/users').push().key
+      console.log('OWNER', ownerId)
+      const petObj = {
+        age,
+        breed,
+        gender,
+        imageUrl,
+        ownerName,
+        ownerId,
+        petId,
+        petName,
+        size
+      }
+      await db.ref(`/pets/${petId}`).set(petObj)
+      const userObj = {
+        email,
+        userId: ownerId,
+        userName: ownerName,
+        zip,
+        isDiscoverable,
+      }
+      await db.ref(`users/${ownerId}`).set(userObj)
+      await db.ref(`users/${ownerId}/pets/${petId}`).set(petObj)
+      this.props.navigation.navigate('HomeScreen')
+    } catch (err) { Alert.alert(err) }
   }
 
   render() {
