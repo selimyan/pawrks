@@ -125,8 +125,14 @@ export default class Signup extends Component {
             value={zip}
             onChangeText={(text) => this.setState({ zip: text })}
           />
-          <Button title='Choose image' onPress={this.chooseImage} />
+          <Button
+            buttonStyle={styles.button}
+            title='Upload Image'
+            onPress={this.chooseImage}
+          />
           <CheckBox
+            // containerStyle={styles.button}
+            // textStyle={{ color: '#FFFFFF', fontFamily: 'System' }}
             iconRight
             title='Paws can find me'
             name='isDiscoverable'
@@ -134,10 +140,10 @@ export default class Signup extends Component {
             onPress={() => this.setState({ isDiscoverable: !isDiscoverable })}
           />
           <Button
-            buttonStyle={styles.button}
-            onPress={this.handleSubmit}
+            buttonStyle={styles.submit}
             title="Save Pawfile"
             backgroundColor="#2EC4B6"
+            onPress={this.handleSubmit}
           />
         </KeyboardAvoidingView>
       </ScrollView>
@@ -164,7 +170,7 @@ const styles = StyleSheet.create({
     borderColor: '#2EC4B6',
     borderRadius: 10,
   },
-  button: {
+  submit: {
     height: 45,
     width: 300,
     backgroundColor: '#2EC4B6',
@@ -179,5 +185,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#2EC4B6',
     borderRadius: 10,
+  },
+  button: {
+    height: 45,
+    width: 300,
+    backgroundColor: '#FF9F1C',
+    borderRadius: 10,
+    margin: 5,
+    borderColor: '#2EC4B6',
   }
 })
