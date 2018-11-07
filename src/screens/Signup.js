@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { StyleSheet, TextInput, ScrollView, Alert } from 'react-native'
+import { StyleSheet, TextInput, ScrollView, Alert, KeyboardAvoidingView } from 'react-native'
 import { ButtonGroup, Button, CheckBox } from 'react-native-elements'
 import { ImagePicker, Permissions } from 'expo'
 import { db, storage } from '../config'
-import "@expo/vector-icons"
+import '@expo/vector-icons'
 
 export const addUser = (user) => {
   db.ref('/pets').push({ user })
@@ -66,74 +66,81 @@ export default class Signup extends Component {
       age,
       breed,
       zip,
-      imageUrl,
       isDiscoverable
     } = this.state
 
     return (
-      <ScrollView contentContainerStyle={styles.main} keyboardShouldPersistTaps='never' keyboardDismissMode='on-drag'>
-        <TextInput
-          style={styles.inputs}
-          placeholder='Your Name'
-          value={ownerName}
-          onChangeText={(text) => this.setState({ ownerName: text })}
-        />
-        <TextInput
-          style={styles.inputs}
-          placeholder='Paw Name'
-          value={petName}
-          onChangeText={(text) => this.setState({ petName: text })}
-        />
-        <ButtonGroup
-          selectedButtonStyle={{ backgroundColor: '#FF9F1C' }}
-          onPress={(idx) => this.setState({ gender: idx })}
-          selectedIndex={gender}
-          buttons={['Male', 'Female']}
-          style={styles.container}
-        />
-        <ButtonGroup
-          selectedButtonStyle={{ backgroundColor: '#FF9F1C' }}
-          onPress={(idx) => this.setState({ size: idx })}
-          selectedIndex={size}
-          buttons={['Small', 'Medium', 'Large']}
-          style={styles.container}
-        />
-        <TextInput
-          style={styles.inputs}
-          placeholder='Age'
-          keyboardType='number-pad'
-          value={age}
-          onChangeText={(text) => this.setState({ age: text })}
-        />
-        <TextInput
-          style={styles.inputs}
-          placeholder='Breed'
-          value={breed}
-          onChangeText={(text) => this.setState({ breed: text })}
-        />
-        <TextInput
-          style={styles.inputs}
-          placeholder='Zip'
-          keyboardType='number-pad'
-          value={zip}
-          onChangeText={(text) => this.setState({ zip: text })}
-        />
-        <Button title='Choose image' onPress={this.chooseImage} />
-        <CheckBox
-          iconRight
-          title='Paws can find me'
-          name='isDiscoverable'
-          checked={isDiscoverable}
-          onPress={() => this.setState({ isDiscoverable: !isDiscoverable })}
-        />
-        <Button
-          buttonStyle={styles.button}
-          onPress={this.handleSubmit}
-          title="Save Pawfile"
-          backgroundColor="#2EC4B6"
-        />
+      <ScrollView
+        contentContainerStyle={{ flex: 1 }}
+        keyboardShouldPersistTaps='never'
+        keyboardDismissMode='on-drag'
+      >
+        <KeyboardAvoidingView
+          style={styles.main}
+          behavior='padding'
+        >
+          <TextInput
+            style={styles.inputs}
+            placeholder='Your Name'
+            value={ownerName}
+            onChangeText={(text) => this.setState({ ownerName: text })}
+          />
+          <TextInput
+            style={styles.inputs}
+            placeholder='Paw Name'
+            value={petName}
+            onChangeText={(text) => this.setState({ petName: text })}
+          />
+          <ButtonGroup
+            containerStyle={styles.buttonGroup}
+            selectedButtonStyle={{ backgroundColor: '#FF9F1C' }}
+            buttons={['Male', 'Female']}
+            selectedIndex={gender}
+            onPress={(idx) => this.setState({ gender: idx })}
+          />
+          <ButtonGroup
+            containerStyle={styles.buttonGroup}
+            selectedButtonStyle={{ backgroundColor: '#FF9F1C' }}
+            buttons={['Small', 'Medium', 'Large']}
+            selectedIndex={size}
+            onPress={(idx) => this.setState({ size: idx })}
+          />
+          <TextInput
+            style={styles.inputs}
+            placeholder='Age'
+            keyboardType='number-pad'
+            value={age}
+            onChangeText={(text) => this.setState({ age: text })}
+          />
+          <TextInput
+            style={styles.inputs}
+            placeholder='Breed'
+            value={breed}
+            onChangeText={(text) => this.setState({ breed: text })}
+          />
+          <TextInput
+            style={styles.inputs}
+            placeholder='Zip'
+            keyboardType='number-pad'
+            value={zip}
+            onChangeText={(text) => this.setState({ zip: text })}
+          />
+          <Button title='Choose image' onPress={this.chooseImage} />
+          <CheckBox
+            iconRight
+            title='Paws can find me'
+            name='isDiscoverable'
+            checked={isDiscoverable}
+            onPress={() => this.setState({ isDiscoverable: !isDiscoverable })}
+          />
+          <Button
+            buttonStyle={styles.button}
+            onPress={this.handleSubmit}
+            title="Save Pawfile"
+            backgroundColor="#2EC4B6"
+          />
+        </KeyboardAvoidingView>
       </ScrollView>
-
     )
   }
 }
@@ -141,10 +148,10 @@ export default class Signup extends Component {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    padding: 30,
+    padding: 15,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
   },
   inputs: {
@@ -166,4 +173,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
+  buttonGroup: {
+    width: 300,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#2EC4B6',
+    borderRadius: 10,
+  }
 })
