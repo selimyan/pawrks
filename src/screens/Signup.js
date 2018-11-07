@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, TextInput, ScrollView, Alert } from 'react-native'
 import { ButtonGroup, Button, CheckBox } from 'react-native-elements'
-// import { ImagePicker, Permissions } from 'expo'
+import { ImagePicker, Permissions } from 'expo'
 import { db, app } from '../config'
 import "@expo/vector-icons"
 
@@ -21,35 +21,30 @@ export default class Signup extends Component {
       age: '',
       breed: '',
       zip: '',
-      isDiscoverable: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    // this.chooseImage = this.chooseImage.bind(this)
-    // this.uploadImage = this.uploadImage.bind(this)
+    this.chooseImage = this.chooseImage.bind(this)
+    this.uploadImage = this.uploadImage.bind(this)
   }
 
-  // async chooseImage() {
-  //   await Permissions.askAsync(Permissions.CAMERA_ROLL)
-  //   let result = await ImagePicker.launchImageLibraryAsync()
+  async chooseImage() {
+    await Permissions.askAsync(Permissions.CAMERA_ROLL)
+    let result = await ImagePicker.launchImageLibraryAsync()
+    if (!result.cancelled) {
+      try {
+        await this.uploadImage(result.uri)
+        Alert.alert('Uploaded')
+      } catch (err) { Alert.alert(err) }
+    }
+  }
 
-  //   if (!result.cancelled) {
-  //     this.uploadImage(result.uri, 'doggo')
-  //       .then(() => {
-  //         Alert.alert('Uploaded')
-  //       })
-  //       .catch((err) => {
-  //         Alert.alert(err)
-  //       })
-  //   }
-  // }
-
-  // async uploadImage(uri, imageName) {
-  //   const response = await fetch(uri)
-  //   const blob = await response.blob()
-
-  //   let ref = app.storage().ref().child(`images/${imageName}`)
-  //   return ref.put(blob)
-  // }
+  async uploadImage(uri) {
+    const response = await fetch(uri)
+    const blob = await response.blob()
+    let ref = app.storage().ref().child(`images/${blob._data.blobId}`)
+    console.log('blob data', blob._data)
+    return ref.put(blob)
+  }
 
   handleSubmit() {
     const userEmail = app.auth().currentUser.email
@@ -68,14 +63,6 @@ export default class Signup extends Component {
           value={ownerName}
           onChangeText={(text) => this.setState({ ownerName: text })}
         />
-        {/* <TextInput
-          style={styles.inputs}
-          keyboardType='email-address'
-          autoCapitalize='none'
-          placeholder='Your Email'
-          value={email}
-          onChangeText={(text) => this.setState({ email: text })}
-        /> */}
         <TextInput
           style={styles.inputs}
           placeholder='Paw Name'
@@ -116,7 +103,7 @@ export default class Signup extends Component {
           value={zip}
           onChangeText={(text) => this.setState({ zip: text })}
         />
-        {/* <Button title='Choose image' onPress={this.chooseImage} /> */}
+        <Button title='Choose image' onPress={this.chooseImage} />
         <CheckBox
           iconRight
           title='Paws can find me'
