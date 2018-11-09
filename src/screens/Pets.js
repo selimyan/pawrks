@@ -42,7 +42,6 @@ export default class Pets extends Component {
   }
 
   render() {
-    // console.log('PETSSS', this.state.pets)
     return (
       <ScrollView contentContainerStyle={styles.container}>
         {

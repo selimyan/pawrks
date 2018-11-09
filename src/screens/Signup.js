@@ -59,13 +59,9 @@ export default class Signup extends Component {
       isDiscoverable
     } = this.state
     try {
-      console.log('IN SUBMIT')
       const email = await app.auth().currentUser.email
-      console.log('IN EMAIL', email)
       const petId = await db.ref('/pets').push().key
-      console.log('PETID', petId)
       const ownerId = await db.ref('/users').push().key
-      console.log('OWNER', ownerId)
       const petObj = {
         age,
         breed,
