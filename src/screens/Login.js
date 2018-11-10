@@ -20,7 +20,7 @@ export default class Login extends Component {
     try {
       await app.auth().signInWithEmailAndPassword(email, password)
       this.setState({ error: '', loading: false })
-      this.props.navigation.navigate('HomeScreen')
+      this.props.navigation.navigate('PetsScreen')
     } catch (error) {
       this.setState({ error: `Authentication failed. ${error}`, loading: false })
     }

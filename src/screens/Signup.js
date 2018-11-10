@@ -83,7 +83,7 @@ export default class Signup extends Component {
       }
       await db.ref(`users/${ownerId}`).set(userObj)
       await db.ref(`users/${ownerId}/pets/${petId}`).set(petObj)
-      this.props.navigation.navigate('HomeScreen')
+      this.props.navigation.navigate('PetsScreen')
     } catch (err) { Alert.alert(err) }
   }
 
