@@ -21,7 +21,7 @@ export default class PetComponent extends Component {
               <View style={styles.petCard} key={index}>
                 <TouchableOpacity
                   style={{ alignItems: 'center' }}
-                  onPress={() => navigate('SinglePetScreen', { pet })}>
+                  onPress={() => navigate('SinglePetScreen', { pet, navigate })}>
                   <Image style={styles.petImage} source={{ uri: pet.imageUrl }} />
                   <Text style={styles.petName}>{pet.petName}</Text>
                 </TouchableOpacity>
