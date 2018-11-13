@@ -3,16 +3,21 @@ import { View, Text, Image, StyleSheet } from 'react-native'
 import { Button } from 'react-native-elements'
 
 const SinglePet = (props) => {
-  const pet = props.navigation.state.params.pet
+  const { pet, navigate } = props.navigation.state.params
+
   return (
     <View style={style.main}>
-      <Text style={style.name}>{pet.petName}, {pet.age}y</Text>
+      <Text style={style.name}>{pet.petName}, {pet.age}</Text>
       <Image style={style.petImage} source={{ uri: pet.imageUrl }} />
       <View style={{ margin: 25 }}>
         <Text style={style.info}>I am a {pet.breed}</Text>
         <Text style={style.info}>My hooman is {pet.ownerName}</Text>
       </View>
-      <Button buttonStyle={style.button} title='Message' />
+      <Button
+        buttonStyle={style.button}
+        title='Message'
+        onPress={() => navigate('MessageScreen')}
+      />
     </View>
   )
 }

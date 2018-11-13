@@ -6,6 +6,7 @@ import Pets from './src/screens/Pets'
 import Parks from './src/screens/Parks'
 import Login from './src/screens/Login'
 import SinglePet from './src/screens/SinglePet'
+import Message from './src/screens/Message'
 
 const Root = createStackNavigator({
   LoginScreen: Login,
@@ -13,7 +14,8 @@ const Root = createStackNavigator({
   SignupScreen: Signup,
   PetsScreen: Pets,
   ParksScreen: Parks,
-  SinglePetScreen: SinglePet
+  SinglePetScreen: SinglePet,
+  MessageScreen: Message
 }, {
     initialRouteName: 'LoginScreen'
   })
